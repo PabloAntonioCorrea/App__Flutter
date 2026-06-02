@@ -27,11 +27,3 @@ cd SmartCRM
 flutter pub get
 flutter run
 ```
-
-Dispositivo físico (mesma rede que o PC com a API):
-
-```powershell
-flutter run --dart-define=API_URL=http://SEU_IP:3333
-```
-
-Detalhes em `SmartCRM/README.md` e `CRM-Backend/README.md`.
