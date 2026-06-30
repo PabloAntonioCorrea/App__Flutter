@@ -56,9 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
         content: SizedBox(
           width: 120,
           child: ElevatedButton(
-            onPressed: () {
-              AuthService().logout();
+            onPressed: () async {
+              await AuthService().logout();
+              if (!ctx.mounted) return;
               Navigator.of(ctx).pop();
+              if (!context.mounted) return;
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (_) => const LoginScreen()),
                 (_) => false,

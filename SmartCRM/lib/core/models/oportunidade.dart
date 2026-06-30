@@ -65,4 +65,23 @@ class Oportunidade {
       'etapaFunilId': etapaFunilIdOverride ?? etapaFunilId,
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'titulo': titulo,
+      'valorEstimado': valorEstimado,
+      'valor': valor,
+      'prioridade': prioridade,
+      'prioridadeDb': prioridadeDb,
+      'usuarioId': usuarioId,
+      'leadId': leadId,
+      'etapaFunilId': etapaFunilId,
+      'responsavel': responsavel,
+      'lead': lead,
+      'etapa': etapa,
+      'perdida': perdida,
+      'motivoPerda': motivoPerda,
+    };
+  }
 }

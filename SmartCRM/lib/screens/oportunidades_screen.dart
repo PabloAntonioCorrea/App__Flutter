@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../config/app_strings.dart';
 import '../core/models/oportunidade.dart';
 import '../core/services/oportunidades_service.dart';
+import '../widgets/offline_banner.dart';
 import '../widgets/oportunidade_list_tile.dart';
 import '../widgets/smart_app_bar.dart';
 import 'oportunidade_detail_screen.dart';
@@ -19,6 +20,7 @@ class _OportunidadesScreenState extends State<OportunidadesScreen> {
   final OportunidadesService _service = OportunidadesService();
   List<Oportunidade> _items = [];
   bool _loading = true;
+  bool _fromCache = false;
   String _search = '';
 
   @override
@@ -30,8 +32,13 @@ class _OportunidadesScreenState extends State<OportunidadesScreen> {
   Future<void> _load() async {
     setState(() => _loading = true);
     try {
-      final data = await _service.fetchOportunidades();
-      if (mounted) setState(() => _items = data);
+      final result = await _service.fetchOportunidades();
+      if (mounted) {
+        setState(() {
+          _items = result.data;
+          _fromCache = result.fromCache;
+        });
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -63,6 +70,7 @@ class _OportunidadesScreenState extends State<OportunidadesScreen> {
       ),
       body: Column(
         children: [
+          OfflineBanner(visible: _fromCache),
           Padding(
             padding: const EdgeInsets.all(16),
             child: TextField(

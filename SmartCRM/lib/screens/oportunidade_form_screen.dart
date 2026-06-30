@@ -66,17 +66,15 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
 
   Future<void> _init() async {
     try {
-      final results = await Future.wait([
-        _leadsService.fetchLeads(),
-        _usuariosService.fetchUsuarios(),
-        _etapasService.fetchEtapas(),
-      ]);
-      final todasEtapas = results[2] as List<EtapaFunil>;
-      _leads = results[0] as List<Lead>;
-      _usuarios = results[1] as List<Usuario>;
+      final leadsResult = await _leadsService.fetchLeads();
+      final usuarios = await _usuariosService.fetchUsuarios();
+      final todasEtapas = await _etapasService.fetchEtapas();
+      _leads = leadsResult.data;
+      _usuarios = usuarios;
 
       if (_isEditing) {
-        final op = await _service.fetchById(widget.oportunidadeId!);
+        final opResult = await _service.fetchById(widget.oportunidadeId!);
+        final op = opResult.data;
         _etapas = List<EtapaFunil>.from(todasEtapas);
         _tituloController.text = op.titulo;
         _valorController.text = op.valor.replaceAll('R\$', '').trim();

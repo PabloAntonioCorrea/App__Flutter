@@ -4,15 +4,53 @@ Backend Node.js com Prisma e MySQL (`crm_integrador`).
 
 ## Pré-requisitos
 
-- Node.js 20+
-- MySQL rodando com o schema `crm_integrador` criado (pode estar vazio, sem tabelas)
+- **Docker (recomendado):** Docker Desktop
+- **Sem Docker:** Node.js 20+ e MySQL local
 
-## Configuração (uma vez)
+## Subir com Docker (recomendado)
+
+Na pasta `CRM-Backend`:
+
+```powershell
+npm run docker:up
+npm run docker:seed
+```
+
+| Serviço | URL / porta |
+|---------|-------------|
+| API | `http://localhost:3333` |
+| MySQL (host) | `localhost:3307` |
+
+Teste:
+
+```powershell
+irm http://localhost:3333/health
+```
+
+Login (após o seed):
+
+```powershell
+$body = @{ email = 'pablo@empresa.com'; senha = '123456' } | ConvertTo-Json
+irm http://localhost:3333/auth/login -Method POST -Body $body -ContentType 'application/json'
+```
+
+Comandos Docker:
+
+| Comando | O que faz |
+|---------|-----------|
+| `npm run docker:up` | Sobe MySQL + API (build + migrations automáticas) |
+| `npm run docker:seed` | Popula dados de teste |
+| `npm run docker:logs` | Logs da API |
+| `npm run docker:down` | Para os containers |
+
+O emulador Android continua usando `http://10.0.2.2:3333` (porta 3333 exposta no host).
+
+## Configuração manual (sem Docker)
 
 1. Copie o arquivo de ambiente:
 
 ```powershell
-cd "c:\Users\Pablo\Desktop\Projeto Integrador\CRM-Backend"
+cd CRM-Backend
 copy .env.example .env
 ```
 

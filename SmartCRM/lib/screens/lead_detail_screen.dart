@@ -31,8 +31,8 @@ class _LeadDetailScreenState extends State<LeadDetailScreen> {
   Future<void> _load() async {
     setState(() => _loading = true);
     try {
-      final lead = await _service.fetchById(widget.leadId);
-      if (mounted) setState(() => _lead = lead);
+      final result = await _service.fetchById(widget.leadId);
+      if (mounted) setState(() => _lead = result.data);
     } finally {
       if (mounted) setState(() => _loading = false);
     }

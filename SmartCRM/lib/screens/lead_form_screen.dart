@@ -50,7 +50,8 @@ class _LeadFormScreenState extends State<LeadFormScreen> {
     try {
       _usuarios = await _usuariosService.fetchUsuarios();
       if (_isEditing) {
-        final lead = await _leadsService.fetchById(widget.leadId!);
+        final result = await _leadsService.fetchById(widget.leadId!);
+        final lead = result.data;
         _nomeController.text = lead.nome;
         _emailController.text = lead.email ?? '';
         _telefoneController.text = lead.telefone ?? '';

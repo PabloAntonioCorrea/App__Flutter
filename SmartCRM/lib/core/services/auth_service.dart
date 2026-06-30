@@ -11,11 +11,11 @@ class AuthService {
     final map = data as Map<String, dynamic>;
     final userJson = map['usuario'] ?? map;
     final user = Usuario.fromJson(userJson as Map<String, dynamic>);
-    AppSession.setUser(user);
+    await AppSession.persistUser(user);
     return user;
   }
 
-  void logout() {
-    AppSession.clear();
+  Future<void> logout() async {
+    await AppSession.clearPersisted();
   }
 }

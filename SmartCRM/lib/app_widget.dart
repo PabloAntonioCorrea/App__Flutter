@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'config/app_colors.dart';
+import 'core/session/app_session.dart';
+import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 
 class SmartCrmApp extends StatelessWidget {
@@ -15,7 +17,7 @@ class SmartCrmApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: AppSession.isLoggedIn ? const HomeScreen() : const LoginScreen(),
     );
   }
 }

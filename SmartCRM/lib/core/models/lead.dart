@@ -46,4 +46,19 @@ class Lead {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nome': nome,
+      'email': email,
+      'telefone': telefone,
+      'empresa': empresa,
+      'nicho': nicho,
+      'observacoes': observacoes,
+      'responsavel': responsavel,
+      'usuarioId': usuarioId,
+      'dataCadastro': dataCadastro,
+    };
+  }
 }

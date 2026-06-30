@@ -4,6 +4,7 @@ import '../config/app_strings.dart';
 import '../core/models/lead.dart';
 import '../core/services/leads_service.dart';
 import '../widgets/lead_list_tile.dart';
+import '../widgets/offline_banner.dart';
 import '../widgets/smart_app_bar.dart';
 import 'lead_detail_screen.dart';
 import 'lead_form_screen.dart';
@@ -19,6 +20,7 @@ class _LeadsScreenState extends State<LeadsScreen> {
   final LeadsService _service = LeadsService();
   List<Lead> _leads = [];
   bool _loading = true;
+  bool _fromCache = false;
   String _search = '';
 
   @override
@@ -30,8 +32,13 @@ class _LeadsScreenState extends State<LeadsScreen> {
   Future<void> _load() async {
     setState(() => _loading = true);
     try {
-      final data = await _service.fetchLeads();
-      if (mounted) setState(() => _leads = data);
+      final result = await _service.fetchLeads();
+      if (mounted) {
+        setState(() {
+          _leads = result.data;
+          _fromCache = result.fromCache;
+        });
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -64,6 +71,7 @@ class _LeadsScreenState extends State<LeadsScreen> {
       ),
       body: Column(
         children: [
+          OfflineBanner(visible: _fromCache),
           Padding(
             padding: const EdgeInsets.all(16),
             child: TextField(

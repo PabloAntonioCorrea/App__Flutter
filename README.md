@@ -9,6 +9,18 @@ Monorepo do projeto de dispositivos móveis.
 
 ## Backend
 
+### Com Docker (recomendado)
+
+```powershell
+cd CRM-Backend
+npm run docker:up
+npm run docker:seed
+```
+
+API em `http://localhost:3333`.
+
+### Sem Docker
+
 ```powershell
 cd CRM-Backend
 copy .env.example .env

@@ -24,4 +24,14 @@ class Usuario {
       perfilAcesso: json['perfilAcesso'] as String? ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nome': nome,
+      'email': email,
+      'cargo': cargo,
+      'perfilAcesso': perfilAcesso,
+    };
+  }
 }

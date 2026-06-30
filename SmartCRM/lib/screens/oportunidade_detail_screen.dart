@@ -36,8 +36,8 @@ class _OportunidadeDetailScreenState extends State<OportunidadeDetailScreen> {
   Future<void> _load() async {
     setState(() => _loading = true);
     try {
-      final op = await _service.fetchById(widget.oportunidadeId);
-      if (mounted) setState(() => _oportunidade = op);
+      final result = await _service.fetchById(widget.oportunidadeId);
+      if (mounted) setState(() => _oportunidade = result.data);
     } finally {
       if (mounted) setState(() => _loading = false);
     }

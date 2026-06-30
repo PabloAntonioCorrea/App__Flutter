@@ -10,7 +10,11 @@
     "db:seed": "prisma db seed",
     "db:bootstrap-motivos": "node prisma/bootstrapMotivosPerda.js",
     "db:studio": "prisma studio",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f api",
+    "docker:seed": "docker compose exec api npm run db:seed"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

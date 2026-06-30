@@ -14,4 +14,6 @@ class AppStrings {
   static const String editar = 'Editar';
   static const String excluir = 'Excluir';
   static const String logout = 'LOGOUT';
+  static const String dadosOffline =
+      'Sem conexão com a API — exibindo dados salvos no dispositivo';
 }
