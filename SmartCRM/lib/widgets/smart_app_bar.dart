@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../config/app_colors.dart';
+import 'smart_crm_logo.dart';
 
 class SmartAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -61,9 +62,10 @@ class SmartHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       title: Row(
         children: [
-          const Icon(Icons.shield, color: Colors.white, size: 28),
-          const SizedBox(width: 6),
-          const Icon(Icons.bar_chart, color: Colors.lightGreenAccent, size: 22),
+          SmartCrmLogoIcon(
+            size: 28,
+            forDarkBackground: true,
+          ),
           const SizedBox(width: 8),
           const Text(
             'SmartCRM',

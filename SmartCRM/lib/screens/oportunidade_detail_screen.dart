@@ -211,8 +211,8 @@ class _OportunidadeDetailScreenState extends State<OportunidadeDetailScreen> {
                               border: Border.all(color: Colors.grey),
                             ),
                             child: Text(
-                              _oportunidade!.perdida
-                                  ? 'Motivo: ${_oportunidade!.motivoPerda ?? '—'}'
+                              _oportunidade!.observacoes?.isNotEmpty == true
+                                  ? _oportunidade!.observacoes!
                                   : '—',
                             ),
                           ),

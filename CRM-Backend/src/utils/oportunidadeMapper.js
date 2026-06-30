@@ -12,6 +12,7 @@ export const oportunidadeInclude = {
 export const mapOportunidadeToResponse = (oportunidade) => ({
   id: oportunidade.id,
   titulo: oportunidade.titulo,
+  observacoes: oportunidade.observacoes,
   valorEstimado: oportunidade.valorEstimado,
   valor: formatCurrencyBr(oportunidade.valorEstimado),
   prioridade: formatPrioridadeLabel(oportunidade.prioridade),

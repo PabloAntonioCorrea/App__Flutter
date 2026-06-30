@@ -84,6 +84,7 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
         _prioridade = _prioridades.contains(op.prioridade)
             ? op.prioridade
             : 'Média';
+        _observacoesController.text = op.observacoes ?? '';
       } else {
         _etapas =
             todasEtapas.where((e) => e.nome != 'Perdida' && e.nome != 'Fechado').toList();
@@ -134,6 +135,7 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
     }
     setState(() => _saving = true);
     try {
+      final observacoes = _observacoesController.text.trim();
       final body = {
         'titulo': _tituloController.text.trim(),
         'valorEstimado': _parseValor(_valorController.text),
@@ -141,6 +143,7 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
         'usuarioId': _usuarioId,
         'leadId': _leadId,
         'etapaFunilId': _etapaFunilId,
+        'observacoes': observacoes.isEmpty ? null : observacoes,
       };
       if (_isEditing) {
         await _service.update(widget.oportunidadeId!, body);

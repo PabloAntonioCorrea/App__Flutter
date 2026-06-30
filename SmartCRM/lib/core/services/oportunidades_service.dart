@@ -73,6 +73,7 @@ class OportunidadesService {
         usuarioId: _parseInt(body['usuarioId']),
         leadId: _parseInt(body['leadId']),
         etapaFunilId: _parseInt(body['etapaFunilId']),
+        observacoes: body['observacoes'] as String?,
       );
       await _cache.upsert(item, SyncStatus.pendingCreate);
       return item;
@@ -102,6 +103,7 @@ class OportunidadesService {
         responsavel: existing.responsavel,
         lead: existing.lead,
         etapa: existing.etapa,
+        observacoes: body['observacoes'] as String? ?? existing.observacoes,
         perdida: existing.perdida,
         motivoPerda: existing.motivoPerda,
       );

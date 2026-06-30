@@ -13,6 +13,7 @@ class Oportunidade {
   final String? responsavel;
   final String? lead;
   final String? etapa;
+  final String? observacoes;
   final bool perdida;
   final String? motivoPerda;
 
@@ -29,6 +30,7 @@ class Oportunidade {
     this.responsavel,
     this.lead,
     this.etapa,
+    this.observacoes,
     this.perdida = false,
     this.motivoPerda,
   });
@@ -50,15 +52,17 @@ class Oportunidade {
       responsavel: json['responsavel'] as String?,
       lead: json['lead'] as String?,
       etapa: json['etapa'] as String?,
+      observacoes: json['observacoes'] as String?,
       perdida: json['perdida'] as bool? ?? false,
       motivoPerda: json['motivoPerda'] as String?,
     );
   }
 
-  Map<String, dynamic> toPayload({int? etapaFunilIdOverride}) {
+  Map<String, dynamic> toPayload({int? etapaFunilIdOverride, String? observacoesOverride}) {
     return {
       'titulo': titulo,
       'valorEstimado': parseDouble(valorEstimado),
+      'observacoes': observacoesOverride ?? observacoes,
       'prioridade': prioridadeParaApi(prioridade, prioridadeDb),
       'usuarioId': usuarioId,
       'leadId': leadId,
@@ -80,6 +84,7 @@ class Oportunidade {
       'responsavel': responsavel,
       'lead': lead,
       'etapa': etapa,
+      'observacoes': observacoes,
       'perdida': perdida,
       'motivoPerda': motivoPerda,
     };

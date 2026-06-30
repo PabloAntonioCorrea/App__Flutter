@@ -113,6 +113,7 @@ model Oportunidade {
   id             Int        @id @default(autoincrement()) @db.UnsignedInt
   titulo         String     @db.VarChar(160)
   valorEstimado  Decimal    @default(0) @map("valor_estimado") @db.Decimal(12, 2)
+  observacoes    String?    @db.Text
   prioridade      Prioridade   @default(Media)
   motivoPerdaId   Int?         @map("motivo_perda_id") @db.UnsignedInt
   dataCriacao     DateTime     @default(now()) @map("data_criacao")

@@ -84,6 +84,7 @@ const buildOportunidadeData = async (body) => {
   const data = {
     titulo,
     valorEstimado,
+    observacoes: body.observacoes?.trim() || null,
     prioridade,
     usuarioId,
     leadId,
