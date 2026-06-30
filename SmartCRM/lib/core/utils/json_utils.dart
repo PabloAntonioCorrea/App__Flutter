@@ -8,12 +8,23 @@ int parseInt(dynamic value) {
 double parseDouble(dynamic value) {
   if (value is double) return value;
   if (value is num) return value.toDouble();
-  if (value is String) {
-    final normalized =
-        value.replaceAll(RegExp(r'[^\d,.-]'), '').replaceAll(',', '.');
-    return double.tryParse(normalized) ?? 0;
-  }
+  if (value is String) return parseValorBr(value);
   return 0;
+}
+
+double parseValorBr(String raw) {
+  final trimmed = raw.trim();
+  if (trimmed.isEmpty) return 0;
+
+  var normalized = trimmed.replaceAll(RegExp(r'[R$\s]'), '');
+
+  if (normalized.contains(',')) {
+    normalized = normalized.replaceAll('.', '').replaceAll(',', '.');
+  } else if (RegExp(r'^\d{1,3}(\.\d{3})+$').hasMatch(normalized)) {
+    normalized = normalized.replaceAll('.', '');
+  }
+
+  return double.tryParse(normalized) ?? 0;
 }
 
 String prioridadeParaApi(String? label, String? db) {

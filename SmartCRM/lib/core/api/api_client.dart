@@ -41,7 +41,8 @@ class ApiClient {
   }
 
   static Map<String, String> _headers() => {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+        'Accept': 'application/json; charset=utf-8',
       };
 
   static dynamic _handleResponse(http.Response response) {

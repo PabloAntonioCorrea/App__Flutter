@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../config/app_colors.dart';
 import '../config/app_strings.dart';
@@ -10,7 +11,9 @@ import '../core/services/leads_service.dart';
 import '../core/services/oportunidades_service.dart';
 import '../core/services/usuarios_service.dart';
 import '../core/session/app_session.dart';
+import '../core/utils/json_utils.dart';
 import '../widgets/smart_app_bar.dart';
+import '../widgets/app_text_field.dart';
 
 class OportunidadeFormScreen extends StatefulWidget {
   final int? oportunidadeId;
@@ -77,7 +80,7 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
         final op = opResult.data;
         _etapas = List<EtapaFunil>.from(todasEtapas);
         _tituloController.text = op.titulo;
-        _valorController.text = op.valor.replaceAll('R\$', '').trim();
+        _valorController.text = _formatValorForInput(op.valorEstimado);
         _leadId = op.leadId;
         _usuarioId = op.usuarioId;
         _etapaFunilId = op.etapaFunilId;
@@ -120,9 +123,14 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
     super.dispose();
   }
 
-  double _parseValor(String raw) {
-    final normalized = raw.replaceAll(RegExp(r'[^\d,.-]'), '').replaceAll(',', '.');
-    return double.tryParse(normalized) ?? 0;
+  double _parseValor(String raw) => parseValorBr(raw);
+
+  String _formatValorForInput(dynamic value) {
+    final amount = parseDouble(value);
+    if (amount == amount.roundToDouble()) {
+      return amount.toInt().toString();
+    }
+    return amount.toString().replaceAll('.', ',');
   }
 
   Future<void> _save() async {
@@ -173,14 +181,10 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
               child: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  TextFormField(
+                  AppTextField(
+                    label: 'Título',
                     controller: _tituloController,
-                    decoration: const InputDecoration(
-                      labelText: 'Título',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Campo obrigatório' : null,
+                    required: true,
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<int>(
@@ -231,15 +235,15 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
                     onChanged: (v) => setState(() => _prioridade = v ?? 'Média'),
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(
+                  AppTextField(
+                    label: 'Valor',
                     controller: _valorController,
+                    required: true,
+                    numeric: true,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'Valor',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Campo obrigatório' : null,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+                    ],
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<int>(
@@ -260,13 +264,10 @@ class _OportunidadeFormScreenState extends State<OportunidadeFormScreen> {
                     onChanged: (v) => setState(() => _usuarioId = v),
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(
+                  AppTextField(
+                    label: 'Observações',
                     controller: _observacoesController,
                     maxLines: 3,
-                    decoration: const InputDecoration(
-                      labelText: 'Observações',
-                      border: OutlineInputBorder(),
-                    ),
                   ),
                   const SizedBox(height: 24),
                   Center(

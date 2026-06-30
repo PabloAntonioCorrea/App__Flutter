@@ -8,6 +8,7 @@ import '../core/services/leads_service.dart';
 import '../core/services/usuarios_service.dart';
 import '../core/session/app_session.dart';
 import '../widgets/smart_app_bar.dart';
+import '../widgets/app_text_field.dart';
 
 class LeadFormScreen extends StatefulWidget {
   final int? leadId;
@@ -128,11 +129,20 @@ class _LeadFormScreenState extends State<LeadFormScreen> {
               child: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  _field('Nome', _nomeController, required: true),
-                  _field('Email', _emailController),
-                  _field('Telefone', _telefoneController),
-                  _field('Empresa', _empresaController),
-                  _field('Cargo', _cargoController),
+                  AppTextField(
+                    label: 'Nome',
+                    controller: _nomeController,
+                    required: true,
+                  ),
+                  const SizedBox(height: 12),
+                  AppTextField(label: 'Email', controller: _emailController),
+                  const SizedBox(height: 12),
+                  AppTextField(label: 'Telefone', controller: _telefoneController),
+                  const SizedBox(height: 12),
+                  AppTextField(label: 'Empresa', controller: _empresaController),
+                  const SizedBox(height: 12),
+                  AppTextField(label: 'Cargo', controller: _cargoController),
+                  const SizedBox(height: 12),
                   DropdownButtonFormField<int>(
                     value: _usuarioDropdownValue,
                     decoration: const InputDecoration(
@@ -150,7 +160,11 @@ class _LeadFormScreenState extends State<LeadFormScreen> {
                     onChanged: (v) => setState(() => _usuarioId = v),
                   ),
                   const SizedBox(height: 12),
-                  _field('Observações', _observacoesController, maxLines: 3),
+                  AppTextField(
+                    label: 'Observações',
+                    controller: _observacoesController,
+                    maxLines: 3,
+                  ),
                   const SizedBox(height: 24),
                   Center(
                     child: ElevatedButton(
@@ -177,27 +191,5 @@ class _LeadFormScreenState extends State<LeadFormScreen> {
     final parts = brDate.split('/');
     if (parts.length != 3) return null;
     return '${parts[2]}-${parts[1]}-${parts[0]}';
-  }
-
-  Widget _field(
-    String label,
-    TextEditingController controller, {
-    bool required = false,
-    int maxLines = 1,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextFormField(
-        controller: controller,
-        maxLines: maxLines,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-        ),
-        validator: required
-            ? (v) => v == null || v.isEmpty ? 'Campo obrigatório' : null
-            : null,
-      ),
-    );
   }
 }
